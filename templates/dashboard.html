@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Temperature & Humidity</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .data-container {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            max-width: 500px;
+        }
+        .data-container h2 {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-Time Data</h1>
+
+    <!-- Container pentru Alex -->
+    <div class="data-container" id="alex-container">
+        <h2>Alex</h2>
+        <h2>ID: <span id="alex-id">--</span></h2>
+        <h2>Temperature: <span id="alex-temperature">--</span> °C</h2>
+        <h2>Humidity: <span id="alex-humidity">--</span> %</h2>
+        <h2>Timestamp: <span id="alex-timestamp">--</span></h2>
+    </div>
+
+    <!-- Container pentru Dacian -->
+    <div class="data-container" id="dacian-container">
+        <h2>Dacian</h2>
+        <h2>ID: <span id="dacian-id">--</span></h2>
+        <h2>Temperature: <span id="dacian-temperature">--</span> °C</h2>
+        <h2>Humidity: <span id="dacian-humidity">--</span> %</h2>
+        <h2>Timestamp: <span id="dacian-timestamp">--</span></h2>
+    </div>
+
+    <!-- Container pentru Raul -->
+    <div class="data-container" id="raul-container">
+        <h2>Raul</h2>
+        <h2>ID: <span id="raul-id">--</span></h2>
+        <h2>Temperature: <span id="raul-temperature">--</span> °C</h2>
+        <h2>Humidity: <span id="raul-humidity">--</span> %</h2>
+        <h2>Timestamp: <span id="raul-timestamp">--</span></h2>
+    </div>
+
+    <script>
+        const ws = new WebSocket("ws://" + window.location.host + "/ws");
+
+        ws.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+
+            // Actualizare container pentru Alex
+            if (data.id === "alex") {
+                document.getElementById("alex-id").textContent = data.id;
+                document.getElementById("alex-temperature").textContent = data.temperature;
+                document.getElementById("alex-humidity").textContent = data.humidity;
+                document.getElementById("alex-timestamp").textContent = data.timestamp;
+            }
+
+            // Actualizare container pentru Dacian
+            if (data.id === "dacian") {
+                document.getElementById("dacian-id").textContent = data.id;
+                document.getElementById("dacian-temperature").textContent = data.temperature;
+                document.getElementById("dacian-humidity").textContent = data.humidity;
+                document.getElementById("dacian-timestamp").textContent = data.timestamp;
+            }
+
+            // Actualizare container pentru Raul
+            if (data.id === "raul") {
+                document.getElementById("raul-id").textContent = data.id;
+                document.getElementById("raul-temperature").textContent = data.temperature;
+                document.getElementById("raul-humidity").textContent = data.humidity;
+                document.getElementById("raul-timestamp").textContent = data.timestamp;
+            }
+        };
+
+        ws.onclose = function() {
+            alert("WebSocket connection closed.");
+        };
+    </script>
+</body>
+</html>
